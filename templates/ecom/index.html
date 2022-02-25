@@ -1,0 +1,31 @@
+{% extends 'ecom/base.html' %}
+{% load static %}
+{% load bootstrap5 %}
+{% block content%}
+    <h1 style="text-align: center">All products</h1>
+    {% if products %}
+        <div class="row" style="text-align: center">
+        {% for product in products %}
+            <div class="col-lg-3">
+                <div class="box-element">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="broshka;)" style="max-height: 200px; max-width: 200px">
+                {% else %}
+                    <img src="{% static 'images/no-image-icon-6.png' %}" alt="joj" style="max-height: 200px; max-width: 200px">
+                {% endif%}
+                    <p>{{ product.title }} - {{ product.price }}</p>
+                    <p>Available: {{ product.quantity }}</p>
+                    <form method="post">
+                        {% csrf_token %}
+                        <button class="btn btn-primary btn-sm" value="{{ product.id }}" type="submit" name="product">
+                            Add to cart
+                        </button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <h1>Oooops...There are no products yet;(</h1>
+    {% endif %}
+{% endblock content %}

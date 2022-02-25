@@ -1,0 +1,66 @@
+{% extends 'ecom/base.html' %}
+{% load static %}
+
+
+{% block content %}
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="box-element">
+
+				<br>
+				<br>
+				<table class="table">
+					<tr>
+						<th><h5>Items: <strong></strong></h5></th>
+						<th><h5>Total:<strong> {{ total }}</strong></h5></th>
+						<th>
+							<a  style="float:right; margin:5px;" class="btn btn-success" href="">Checkout</a>
+						</th>
+					</tr>
+				</table>
+			</div>
+
+			<br>
+			<div class="box-element">
+				<div class="cart-row" style="display: flex;
+                                                align-items: flex-stretch;
+                                                padding-bottom: 10px;
+                                                margin-bottom: 10px;
+                                                border-bottom: 1px solid #ececec;">
+					<div style="flex:2"></div>
+					<div style="flex:2"><strong>Item</strong></div>
+					<div style="flex:1"><strong>Price</strong></div>
+					<div style="flex:1"><strong>Quantity</strong></div>
+					<div style="flex:1"><strong>Total</strong></div>
+					<div style="flex:1"><strong>Update</strong></div>
+					<div style="flex:1"><strong>Remove</strong></div>
+				</div>
+                {% for product in products %}
+				<div class="cart-row" style="display: flex;
+                                                align-items: flex-stretch;
+                                                padding-bottom: 10px;
+                                                margin-bottom: 10px;
+                                                border-bottom: 1px solid #ececec;">
+					<div style="flex:2"><img class="row-image" src="" alt="no_image"></div>
+					<div style="flex:2"><p>{{ product.product.title }}</p></div>
+					<div style="flex:1"><p>{{ product.product.price }}</p></div>
+					<div style="flex:1"><p class="quantity">{{ product.quantity }}</p></div>
+					<div style="flex:1"><p>{{ product.get_total_price }}</p></div>
+					<div style="flex:1">
+						<a class="btn btn-sm btn-dark" href="">Update</a>
+					</div>
+					<div style="flex:1">
+                        <form method="post">
+                            {% csrf_token %}
+                            <button class="btn btn-sm btn-danger" value="{{product.id }}" name="delete" type="submit">Remove</button>
+                        </form>
+					</div>
+				</div>
+                {% endfor %}
+			</div>
+		</div>
+	</div>
+    {% if not products %}
+	    <h1 style="text-align:center;padding: 100px">No Items in cart</h1>
+    {% endif %}
+{% endblock content %}
